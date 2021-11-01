@@ -1,0 +1,63 @@
+﻿<Window x:Class="TimerLab.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimerLab"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="800">
+    <Grid>
+        <Grid x:Name="timer" Background="White" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Button x:Name="AlarmButton" Grid.Column="0" Background="DarkMagenta" Foreground="White" Cursor="Hand" Padding="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Alarm"/>
+                    <Button x:Name="TimerButton" Grid.Column="1" Foreground="Azure" Background="DimGray" Padding="20" Cursor="Wait" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Timer"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <Border Background="DodgerBlue" Grid.Row="1">
+                    <ScrollViewer>
+                        <StackPanel x:Name="TimerStackPanel" Orientation="Vertical">
+                            <TextBlock>
+                                <Run FontSize="20" Foreground="Azure" FontWeight="Bold">Press "+" to add TIMER</Run>
+                            </TextBlock>
+                            <Button x:Name="AddTimer" Content="+" Padding="20 20" Margin="90 5" Click="AddTimer_Click" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Border Background="SeaGreen" Grid.Column="1"></Border>
+            <Grid Grid.Column="1">
+                <Grid Margin="120 150">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="Hours_Text" Grid.Column="0" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background = "#2568ff"/>
+                            <TextBox x:Name="Minutes_Text" Grid.Column="1" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background = "#2568ff"/>
+                            <TextBox x:Name="Seconds_Text" Grid.Column="2" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center"  VerticalAlignment="Stretch " HorizontalAlignment="Stretch" Background = "#2568ff"/>
+                        </Grid>
+                        <Button x:Name="StartButton" Grid.Row="1" Content="START" Margin="70 30" FontSize="30" Click="StartButton_Click" />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
