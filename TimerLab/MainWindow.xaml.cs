@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +12,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Timers;
+using System.IO;
+
+public enum time: int { min=0,max=59,maxhr=23, };
+public enum typet: int {hour=0,min,sec, };
 
 namespace TimerLab
 {
@@ -23,20 +26,23 @@ namespace TimerLab
     public partial class MainWindow : Window
     {
         int StackPanelSize = 2;
-        //bool StoreBeforeLaunch = false;
 
-        MyTimer mtimer = new MyTimer();
+
+        private MyTimer mtimer;
         Dictionary<Button, MyTimer> timerDict = new Dictionary<Button, MyTimer>();
         Button lastButton = new Button();
-        public DispatcherTimer Timer = new DispatcherTimer();
+        private bool showAlert = false;
 
 
         public MainWindow()
         {
             InitializeComponent();
+
+            mtimer = new MyTimer();
             DispatcherTimer Timer = new DispatcherTimer();
             Timer.Tick += new EventHandler(Timer_Tick);
             Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.Start();
 
 
             Hours_Text.MouseWheel += Mouse_Scroll;
@@ -48,47 +54,31 @@ namespace TimerLab
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-
-            if (mtimer.seconds == 0)
+            mtimer.setval(int.Parse(Hours_Text.Text), int.Parse(Minutes_Text.Text), int.Parse(Seconds_Text.Text));
+            if (timertxt.IsEnabled)
             {
-                if (mtimer.minutes == 0)
+                if (mtimer.stopped())
                 {
-                    if (mtimer.hours == 0)
+                    showAlert = !showAlert;
+                    if (showAlert)
                     {
-                        Timer.IsEnabled = false;
-                        mtimer.IsRunning = false;
+                        this.Hours_Text.Visibility = Visibility.Visible;
+                        this.Minutes_Text.Visibility = Visibility.Visible;
+                        this.Seconds_Text.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        mtimer.hours -= 1;
-
-                        Hours_Text.Text = (mtimer.hours).ToString("00");
-
-                        mtimer.minutes = 59;
-                        Minutes_Text.Text = (mtimer.minutes).ToString("00");
-
-                        mtimer.seconds = 60;
-                        mtimer.IsRunning = true;
+                        this.Hours_Text.Visibility = Visibility.Hidden;
+                        this.Minutes_Text.Visibility = Visibility.Hidden;
+                        this.Seconds_Text.Visibility = Visibility.Hidden;
                     }
                 }
+                else mtimer.decval();
+                if (!showAlert)
+                    timertxt.Text = mtimer.s_retval((int)typet.hour) + ':' + mtimer.s_retval((int)typet.min) + ':' + mtimer.s_retval((int)typet.sec);
                 else
-                {
-                    mtimer.minutes -= 1;
-                    Minutes_Text.Text = mtimer.minutes.ToString("00");
-                    mtimer.seconds = 60;
-                    mtimer.IsRunning = true;
-                }
+                    timertxt.Text = timertxt.Text.Trim() + ':' + timertxt.Text.Trim() + ":0 (" + mtimer.s_retval((int)typet.hour) + ':' + mtimer.s_retval((int)typet.min) + ':' + mtimer.s_retval((int)typet.sec) + ')';
             }
-
-
-
-            if (Timer.IsEnabled == true)
-            {
-                mtimer.seconds -= 1;
-                Seconds_Text.Text = mtimer.seconds.ToString("00");
-                mtimer.IsRunning = true;
-            }
-
         }
 
         private void Mouse_Scroll(object sender, MouseWheelEventArgs e)
@@ -207,22 +197,29 @@ namespace TimerLab
                 StartButton.Content = "START";
             }
         }
-
-        private void EnableButtons()
+       /*
+       private void Check_Timer(object sender, RoutedEventArgs e)
         {
-            Hours_Text.IsReadOnly = false;
-            Minutes_Text.IsReadOnly = false;
-            Seconds_Text.IsReadOnly = false;
-        }
+            if ((bool)this.TimerCheck.IsChecked)
+            {
+                Hours_Text.IsEnabled = true;
+                Minutes_Text.IsEnabled = true;
+                Seconds_Text.IsEnabled = true;
+                AlarmCheck.IsChecked = false;
+            }
+            else
+            {
+                Hours_Text.IsEnabled = false;
+                Minutes_Text.IsEnabled = false;
+                Seconds_Text.IsEnabled = false;
+                AlarmCheck.IsChecked = true;
 
-        private void DisableButtons()
-        {
-            Hours_Text.IsReadOnly = true;
-            Minutes_Text.IsReadOnly = true;
-            Seconds_Text.IsReadOnly = true;
+            }
+       */
+
         }
     }
 
 
 
-}
+

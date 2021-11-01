@@ -19,7 +19,7 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Button x:Name="AlarmButton" Grid.Column="0" Background="DarkMagenta" Foreground="White" Cursor="Hand" Padding="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Alarm"/>
-                    <Button x:Name="TimerButton" Grid.Column="1" Foreground="Azure" Background="DimGray" Padding="20" Cursor="Wait" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Timer"/>
+                    <Button x:Name="TimerButton" Grid.Column="1" Foreground="Azure" Background="DimGray" Padding="20" Cursor="Wait" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Timer" />
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -53,6 +53,7 @@
                             <TextBox x:Name="Hours_Text" Grid.Column="0" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background = "#2568ff"/>
                             <TextBox x:Name="Minutes_Text" Grid.Column="1" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background = "#2568ff"/>
                             <TextBox x:Name="Seconds_Text" Grid.Column="2" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center"  VerticalAlignment="Stretch " HorizontalAlignment="Stretch" Background = "#2568ff"/>
+                            <TextBox x:Name="timertxt" Grid.Column="0" Margin="0,-105,0,105" Grid.ColumnSpan="3" TextAlignment = "Center"  VerticalAlignment="Stretch " HorizontalAlignment="Stretch" Background = "#2568ff"/>
                         </Grid>
                         <Button x:Name="StartButton" Grid.Row="1" Content="START" Margin="70 30" FontSize="30" Click="StartButton_Click" />
                     </Grid>
