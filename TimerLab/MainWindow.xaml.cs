@@ -26,22 +26,25 @@ namespace TimerLab
     public partial class MainWindow : Window
     {
         int StackPanelSize = 2;
-
+        bool IsRunning = false;
 
         private MyTimer mtimer;
         Dictionary<Button, MyTimer> timerDict = new Dictionary<Button, MyTimer>();
         Button lastButton = new Button();
         private bool showAlert = false;
-
+        public DispatcherTimer Timer;
+       // List<Button> buttons = new List<Button> ();
+       // List<MyTimer> timers = new List<MyTimer>();
 
         public MainWindow()
         {
             InitializeComponent();
 
             mtimer = new MyTimer();
-            DispatcherTimer Timer = new DispatcherTimer();
+            Timer = new DispatcherTimer();
             Timer.Tick += new EventHandler(Timer_Tick);
             Timer.Interval = new TimeSpan(0, 0, 1);
+            Timer.IsEnabled = false;
             Timer.Start();
 
 
@@ -50,34 +53,19 @@ namespace TimerLab
             Seconds_Text.MouseWheel += Mouse_Scroll;
         }
 
-
-
         private void Timer_Tick(object sender, EventArgs e)
         {
-            mtimer.setval(int.Parse(Hours_Text.Text), int.Parse(Minutes_Text.Text), int.Parse(Seconds_Text.Text));
             if (timertxt.IsEnabled)
             {
                 if (mtimer.stopped())
-                {
-                    showAlert = !showAlert;
-                    if (showAlert)
-                    {
-                        this.Hours_Text.Visibility = Visibility.Visible;
-                        this.Minutes_Text.Visibility = Visibility.Visible;
-                        this.Seconds_Text.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        this.Hours_Text.Visibility = Visibility.Hidden;
-                        this.Minutes_Text.Visibility = Visibility.Hidden;
-                        this.Seconds_Text.Visibility = Visibility.Hidden;
-                    }
+                {                   
+                    
                 }
-                else mtimer.decval();
-                if (!showAlert)
+                else mtimer.decval(); 
+                if ((bool)CheckTimer.IsChecked)
                     timertxt.Text = mtimer.s_retval((int)typet.hour) + ':' + mtimer.s_retval((int)typet.min) + ':' + mtimer.s_retval((int)typet.sec);
                 else
-                    timertxt.Text = timertxt.Text.Trim() + ':' + timertxt.Text.Trim() + ":0 (" + mtimer.s_retval((int)typet.hour) + ':' + mtimer.s_retval((int)typet.min) + ':' + mtimer.s_retval((int)typet.sec) + ')';
+                    timertxt.Text = Hours_Text.Text.Trim() + ':' + Minutes_Text.Text.Trim() + ":0 (" + mtimer.s_retval((int)typet.hour) + ':' + mtimer.s_retval((int)typet.min) + ':' + mtimer.s_retval((int)typet.sec) + ')';
             }
         }
 
@@ -86,7 +74,7 @@ namespace TimerLab
             if (lastButton != null)
             {
                 timerDict.TryGetValue(lastButton, out MyTimer nt);
-
+                
                 int i = 0;
                 if (e.Delta > 0)
                 {
@@ -113,7 +101,7 @@ namespace TimerLab
                         else { ((TextBox)sender).Text = (int.Parse(((TextBox)sender).Text) + i).ToString(); }
                         nt.hours = int.Parse(((TextBox)sender).Text);
 
-                        
+
                         break;
                     case "Minutes_Text":
                         if ((int.Parse(((TextBox)sender).Text) + i) > 59)
@@ -160,6 +148,7 @@ namespace TimerLab
             TimerStackPanel.Children.Insert(StackPanelSize - 1, newTimerButton);
             StackPanelSize++;
             MyTimer NewTimer = new MyTimer();
+            Timer_Tick(sender, e);
             timerDict.Add(newTimerButton, NewTimer);
             lastButton = newTimerButton;
         }
@@ -170,7 +159,9 @@ namespace TimerLab
             Hours_Text.Text = nt.hours.ToString();
             Minutes_Text.Text = nt.minutes.ToString();
             Seconds_Text.Text = nt.seconds.ToString();
-            if (nt.IsRunning)
+            
+            timertxt.Text= Hours_Text.Text.Trim()+":"+ Minutes_Text.Text.Trim()+":"+Seconds_Text.Text.Trim();
+            if (IsRunning)
             {
                 StartButton.Content = "STOP";
             }
@@ -184,41 +175,67 @@ namespace TimerLab
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             timerDict.TryGetValue(lastButton, out MyTimer nt);
-            nt.IsRunning = !nt.IsRunning;
-            Timer_Tick(sender, e);
+            IsRunning = !IsRunning;
+            
 
-            if (nt.IsRunning)
+            if (IsRunning && (bool)CheckTimer.IsChecked==true)
             {
-                Timer_Tick(sender, e);
-                StartButton.Content = "STOP";
+                int hr = int.Parse(Hours_Text.Text);
+                int mn = int.Parse(Minutes_Text.Text);
+                int sc = int.Parse(Seconds_Text.Text);
+                timertxt.IsEnabled = true;
+                mtimer.setval(hr, mn, sc);
+                Timer.IsEnabled = true;
+
+                StartButton.Content = "STOP";                
             }
             else
             {
                 StartButton.Content = "START";
+                Timer.IsEnabled = false;
+                Timer.Stop();
             }
         }
-       /*
-       private void Check_Timer(object sender, RoutedEventArgs e)
+
+        private void Timer_Check(object sender, RoutedEventArgs e)
         {
-            if ((bool)this.TimerCheck.IsChecked)
+            if ((bool)CheckTimer.IsChecked)
             {
                 Hours_Text.IsEnabled = true;
                 Minutes_Text.IsEnabled = true;
                 Seconds_Text.IsEnabled = true;
-                AlarmCheck.IsChecked = false;
+                timertxt.IsEnabled = true;
+                if ((bool)CheckAlarm.IsChecked) CheckAlarm.IsChecked = false;
             }
             else
             {
                 Hours_Text.IsEnabled = false;
                 Minutes_Text.IsEnabled = false;
                 Seconds_Text.IsEnabled = false;
-                AlarmCheck.IsChecked = true;
-
+                CheckAlarm.IsChecked = false;
             }
-       */
+        }
 
+        private void Alarm_Check(object sender,RoutedEventArgs e)
+        {
+            if ((bool)CheckAlarm.IsChecked)
+            {
+                Hours_Text.IsEnabled = true;
+                Minutes_Text.IsEnabled = true;
+                Seconds_Text.IsEnabled = true;
+                CheckTimer.IsChecked = false;
+                if ((bool)CheckTimer.IsChecked) CheckTimer.IsChecked = false;
+            }
+            else
+            {
+                Hours_Text.IsEnabled = false;
+                Minutes_Text.IsEnabled = false;
+                Seconds_Text.IsEnabled = false;
+                CheckAlarm.IsChecked = false;
+            }
         }
     }
+}
 
 
 

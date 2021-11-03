@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace TimerLab
 {
@@ -12,16 +13,19 @@ class MyTimer
         public int hours;
         public int minutes;
         public int seconds;
-        public bool IsRunning;
+        public bool hasStopped;
+        
+        
 
         public MyTimer()
         {
-            this.hours = 0;
+            this.hours=0;
             this.minutes = 0;
             this.seconds = 0;
-            this.IsRunning = false;
-            
+            this.hasStopped = false;          
         }
+
+        
 
         public MyTimer(int newh = 0, int newm = 0, int news = 0)
         {
@@ -29,31 +33,40 @@ class MyTimer
             minutes = newm;
             seconds = news;
         }
-
+        
         public void decval()
-        {
-            if (!IsRunning)
+        {       
+            if (seconds == 0)
             {
-                seconds--;
-                if (seconds < (int)time.min)
+                if (minutes == 0)
                 {
-                    seconds = (int)time.max;
-                    minutes--;
-                    if (minutes < (int)time.min)
+                    if (hours == 0)
                     {
-                        minutes = (int)time.max;
-                        hours--;
-                        if (hours < (int)time.min)
-                        {
-                            hours = (int)time.maxhr;
-                            IsRunning = true;
-                        }
+                        hasStopped= true;                                          
+                    }
+                    else
+                    {
+                        hours -= 1;
+                        minutes = 59;                        
+                        seconds = 60;
                     }
                 }
+                else
+                {
+                    minutes -= 1;                   
+                    seconds = 60;
+                }
+            }
+
+
+
+            if (hasStopped == false)
+            {
+                seconds -= 1;              
             }
         }
-
-        public void setval(int newh = 0, int newm = 0, int news = 0) { hours = newh; minutes = newm; seconds = news; IsRunning = false; }
+        
+        public void setval(int newh = 0, int newm = 0, int news = 0) { hours = newh; minutes = newm; seconds = news; hasStopped = false; }
 
         public int retval_i(int retype)
         {
@@ -71,7 +84,7 @@ class MyTimer
 
         public bool stopped()
         {
-            return IsRunning;
+            return hasStopped;
         }
     }
 }
