@@ -14,24 +14,34 @@ class MyTimer
         public int minutes;
         public int seconds;
         public bool hasStopped;
-        
-        
+        //public DispatcherTimer ClsTimer;
 
-        public MyTimer()
+
+
+
+        public MyTimer(string hrs,string mnt,string scnd)
         {
-            this.hours=0;
-            this.minutes = 0;
-            this.seconds = 0;
-            this.hasStopped = false;          
+            this.hours=int.Parse(hrs);
+            this.minutes = int.Parse(mnt);
+            this.seconds = int.Parse(scnd);
+            this.hasStopped = false;
+            /*
+            ClsTimer=new DispatcherTimer();
+            ClsTimer.Tick += new EventHandler(Timer_Tick);
+            ClsTimer.Interval = new TimeSpan(0, 0, 1);
+            ClsTimer.IsEnabled = false;
+            ClsTimer.Start();*/
         }
 
         
 
-        public MyTimer(int newh = 0, int newm = 0, int news = 0)
+
+        public MyTimer(int newh = 0, int newm = 0, int news = 0,bool hs=false)
         {
             hours = newh;
             minutes = newm;
             seconds = news;
+            hasStopped = hs;
         }
         
         public void decval()
@@ -46,14 +56,14 @@ class MyTimer
                     }
                     else
                     {
-                        hours -= 1;
+                        hours --;
                         minutes = 59;                        
                         seconds = 60;
                     }
                 }
                 else
                 {
-                    minutes -= 1;                   
+                    minutes --;                   
                     seconds = 60;
                 }
             }
