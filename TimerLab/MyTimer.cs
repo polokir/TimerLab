@@ -4,33 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Media;
+
+
 
 namespace TimerLab
 {
-    
-class MyTimer
+    class Ring
+    {
+        private SoundPlayer snd;
+
+        public Ring(string file) // constructor
+        {
+            //file= @"C:\Users\user\Downloads\snd.mp3"; ;
+            snd = new SoundPlayer(file); // testing for file done in main prg.
+        }
+
+        public void play() { snd.Play(); } // play the sound
+        public void stop() { snd.Stop(); } // stop the sound
+    }
+
+    class MyTimer
     {
         public int hours;
         public int minutes;
         public int seconds;
         public bool hasStopped;
-        //public DispatcherTimer ClsTimer;
+       
 
-
-
-
+        
         public MyTimer(string hrs,string mnt,string scnd)
         {
             this.hours=int.Parse(hrs);
             this.minutes = int.Parse(mnt);
             this.seconds = int.Parse(scnd);
             this.hasStopped = false;
-            /*
-            ClsTimer=new DispatcherTimer();
-            ClsTimer.Tick += new EventHandler(Timer_Tick);
-            ClsTimer.Interval = new TimeSpan(0, 0, 1);
-            ClsTimer.IsEnabled = false;
-            ClsTimer.Start();*/
+            
         }
 
         
@@ -52,7 +61,9 @@ class MyTimer
                 {
                     if (hours == 0)
                     {
-                        hasStopped= true;                                          
+                        hasStopped= true;
+                        
+                        
                     }
                     else
                     {
@@ -78,19 +89,7 @@ class MyTimer
         
         public void setval(int newh = 0, int newm = 0, int news = 0) { hours = newh; minutes = newm; seconds = news; hasStopped = false; }
 
-        public int retval_i(int retype)
-        {
-            if (retype == 0) return hours;
-            else if (retype == 1) return minutes;
-            else return seconds;
-        }
-
-        public string s_retval(int retype)
-        {
-            if (retype == 0) return hours.ToString();
-            else if (retype == 1) return minutes.ToString();
-            else return seconds.ToString();
-        }
+        
 
         public bool stopped()
         {
