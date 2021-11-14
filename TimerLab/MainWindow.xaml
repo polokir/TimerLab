@@ -18,10 +18,10 @@
                     <RowDefinition Height="6*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Button x:Name="AlarmButton" Grid.Column="0" Background="#6D5FB3" Foreground="White" Cursor="Hand" Padding="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Alarm"/>
-                    <CheckBox x:Name="CheckAlarm" Grid.Column="0" Click="Alarm_Check"/>
-                    <Button x:Name="TimerButton" Grid.Column="1" Foreground="Azure" Background="#0F1472" Padding="20" Cursor="Wait" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Timer" />
-                    <CheckBox x:Name="CheckTimer" Grid.Column="1" Click="Timer_Check"/>
+                    <Button x:Name="AlarmButton" Grid.Column="0" Background="#6D5FB3" Foreground="White" Cursor="Hand" Padding="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Alarm" Click="AddAlarm_Click"/>
+                    
+                    <Button x:Name="TimerButton" Grid.Column="1" Foreground="Azure" Background="#0F1472" Padding="20" Cursor="Wait" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Timer"  Click="AddTimer_Click" />
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -33,7 +33,7 @@
                             <TextBlock>
                                 <Run FontSize="20" Foreground="#7F9FC3	" FontWeight="Bold">Press "+" to add TIMER</Run>
                             </TextBlock>
-                            <Button x:Name="AddTimer" Content="+" Padding="20 20" Margin="90 5" Click="AddTimer_Click"  />
+                            
                         </StackPanel>
                     </ScrollViewer>
                 </Border>

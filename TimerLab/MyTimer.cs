@@ -16,7 +16,7 @@ namespace TimerLab
 
         public Ring(string file) // constructor
         {
-            //file= @"C:\Users\user\Downloads\snd.mp3"; ;
+            //file= @"C:\Users\user\Downloads\videoplayback.mp3"; ;
             snd = new SoundPlayer(file); // testing for file done in main prg.
         }
 
@@ -30,6 +30,7 @@ namespace TimerLab
         public int minutes;
         public int seconds;
         public bool hasStopped;
+        //public DispatcherTimer ClsTimer;
        
 
         
@@ -38,12 +39,17 @@ namespace TimerLab
             this.hours=int.Parse(hrs);
             this.minutes = int.Parse(mnt);
             this.seconds = int.Parse(scnd);
-            this.hasStopped = false;
-            
+            this.hasStopped = true;
+
+            /*ClsTimer = new DispatcherTimer();
+            ClsTimer.Tick += new EventHandler(Timer_Tick);
+            ClsTimer.Interval = new TimeSpan(0, 0, 1);
+            ClsTimer.IsEnabled = true;
+            ClsTimer.Start();*/
+
         }
 
         
-
 
         public MyTimer(int newh = 0, int newm = 0, int news = 0,bool hs=false)
         {
@@ -62,8 +68,7 @@ namespace TimerLab
                     if (hours == 0)
                     {
                         hasStopped= true;
-                        
-                        
+                                              
                     }
                     else
                     {
@@ -94,6 +99,23 @@ namespace TimerLab
         public bool stopped()
         {
             return hasStopped;
+        }
+
+        public bool IsNull()
+        {
+            if (hours == 0)
+            {
+                if (minutes == 0)
+                {
+                    if (seconds == 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
         }
     }
 }
