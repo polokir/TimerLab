@@ -93,9 +93,14 @@ namespace TimerLab
                     if (value.hours == 0 && value.minutes == 0 && value.seconds == 0)
                     {
                      value.hasStopped = true;
+                     value.PlaySnd();
+                     Timer.IsEnabled = false;
+                     //PlaySound();
                     }
+                    
                 }
         }
+
         private void PlaySound()
         {
             for (int i = 0; i < 1; ++i)
@@ -104,7 +109,6 @@ namespace TimerLab
             }
         }
 
-
         private void ThroughDict()
         {
             foreach (var element in timerDict)
@@ -112,11 +116,7 @@ namespace TimerLab
                 if (element.Value.hasStopped == false)
                 {
                     element.Value.decval();
-                }
-                else
-                {
-                    PlaySound();
-                }              
+                }                          
             }
 
 
@@ -236,14 +236,14 @@ namespace TimerLab
                 StackPanelSize++;
 
                 MyAlarm NewAlarm = new MyAlarm();
-                NewAlarm.setval(int.Parse(Hours_Text.Text), int.Parse(Minutes_Text.Text), int.Parse(Seconds_Text.Text));
+                NewAlarm.setval(int.Parse(AlarmHours_Text.Text), int.Parse(AlarmMinutes_Text.Text), int.Parse(AlarmSeconds_Text.Text));
 
                 alarmDict.Add(newAlarmButton, NewAlarm);
                 lastButton1 = newAlarmButton;
 
-                Hours_Text.Text = "0";
-                Minutes_Text.Text = "0";
-                Seconds_Text.Text = "0";
+            AlarmHours_Text.Text = "0";
+            AlarmMinutes_Text.Text = "0";
+            AlarmSeconds_Text.Text = "0";
                 Timer.IsEnabled = false;
                 
         }
@@ -280,13 +280,12 @@ namespace TimerLab
 
             if (alarmDict.TryGetValue((Button)sender, out MyAlarm nt))
             {
-                Hours_Text.Text = nt.hours.ToString();
-                Minutes_Text.Text = nt.minutes.ToString();
-                Seconds_Text.Text = nt.seconds.ToString();
+                AlarmHours_Text.Text = nt.hours.ToString();
+                AlarmMinutes_Text.Text = nt.minutes.ToString();
+                AlarmSeconds_Text.Text = nt.seconds.ToString();
                 //StartButton.IsEnabled = false;
                 lastButton1 = (Button)sender;
             }
-            Timer.IsEnabled = false;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -299,12 +298,12 @@ namespace TimerLab
                 nt.seconds = int.Parse(Seconds_Text.Text);
                 //IsRunning = Timer.IsEnabled;
                 IsRunning = !IsRunning;
-                Timer.IsEnabled = IsRunning;
+                //Timer.IsEnabled = IsRunning;
 
                 if (IsRunning )
                 {
-                    Timer.IsEnabled = true;
                     StartButton.Content = "STOP";
+                    Timer.IsEnabled = true;
                 }
                 else
                 {
@@ -318,9 +317,9 @@ namespace TimerLab
         {
             if (alarmDict.TryGetValue(lastButton1, out MyAlarm at))
             {
-                at.hours = int.Parse(Hours_Text.Text);
-                at.minutes = int.Parse(Minutes_Text.Text);
-                at.seconds = int.Parse(Seconds_Text.Text);
+                at.hours = int.Parse(AlarmHours_Text.Text);
+                at.minutes = int.Parse(AlarmMinutes_Text.Text);
+                at.seconds = int.Parse(AlarmSeconds_Text.Text);
             }
         }
     }

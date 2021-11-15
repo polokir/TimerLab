@@ -30,13 +30,14 @@ namespace TimerLab
         public int minutes;
         public int seconds;
         public bool hasStopped;
+        private SoundPlayer snd;
         //public DispatcherTimer ClsTimer;
-       
 
-        
-        public MyTimer(string hrs,string mnt,string scnd)
+
+
+        public MyTimer(string hrs, string mnt, string scnd)
         {
-            this.hours=int.Parse(hrs);
+            this.hours = int.Parse(hrs);
             this.minutes = int.Parse(mnt);
             this.seconds = int.Parse(scnd);
             this.hasStopped = true;
@@ -49,37 +50,37 @@ namespace TimerLab
 
         }
 
-        
 
-        public MyTimer(int newh = 0, int newm = 0, int news = 0,bool hs=false)
+
+        public MyTimer(int newh = 0, int newm = 0, int news = 0, bool hs = false)
         {
             hours = newh;
             minutes = newm;
             seconds = news;
             hasStopped = hs;
+            snd = new SoundPlayer(@"C:\Users\user\Downloads\snd2.wav");
         }
-        
+
         public void decval()
-        {       
+        {
             if (seconds == 0)
             {
                 if (minutes == 0)
                 {
                     if (hours == 0)
                     {
-                        hasStopped= true;
-                                              
+                        hasStopped = true;
                     }
                     else
                     {
-                        hours --;
-                        minutes = 59;                        
+                        hours--;
+                        minutes = 59;
                         seconds = 60;
                     }
                 }
                 else
                 {
-                    minutes --;                   
+                    minutes--;
                     seconds = 60;
                 }
             }
@@ -88,13 +89,21 @@ namespace TimerLab
 
             if (hasStopped == false)
             {
-                seconds -= 1;              
+                seconds -= 1;
             }
         }
-        
+
         public void setval(int newh = 0, int newm = 0, int news = 0) { hours = newh; minutes = newm; seconds = news; hasStopped = false; }
 
-        
+        public void PlaySnd()
+        {
+            for(int i = 0; i < 1; ++i)
+            {
+                snd.Play();
+            }
+
+        }
+
 
         public bool stopped()
         {
