@@ -55,9 +55,9 @@
                             <TextBox x:Name="Hours_Text" Grid.Column="0" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background = "#3D7DC4" Foreground="#9DB6BF"/>
                             <TextBox x:Name="Minutes_Text" Grid.Column="1" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background = "#3D7DC4" Foreground="#9DB6BF" />
                             <TextBox x:Name="Seconds_Text" Grid.Column="2" Text = "00" Padding="0 15 0 0" FontSize = "60" TextAlignment = "Center"  VerticalAlignment="Stretch " HorizontalAlignment="Stretch" Background = "#3D7DC4" Foreground="#9DB6BF"/>
-
                         </Grid>
-                        <Button x:Name="StartButton" Grid.Row="1" Content="START" Margin="70 30" FontSize="30" Click="StartButton_Click" />
+                        <Button x:Name="StartButton" Grid.Row="1" Content="START" FontSize="30" Margin="140 0 0 0" Click="StartButton_Click"  />
+                        <Button x:Name="SaveButton" Grid.Row="1" Content="SAVE"  FontSize="30" Margin="0 0 140 0" Click="SaveButton_Click"  />
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="2">

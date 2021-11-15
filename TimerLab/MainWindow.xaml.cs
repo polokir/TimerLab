@@ -245,7 +245,7 @@ namespace TimerLab
                 Minutes_Text.Text = "0";
                 Seconds_Text.Text = "0";
                 Timer.IsEnabled = false;
-                StartButton.Content = "SAVE";
+                
         }
 
         private void SelectButtonTimer(object sender, RoutedEventArgs e)
@@ -256,6 +256,8 @@ namespace TimerLab
                     Hours_Text.Text = nt.hours.ToString();
                     Minutes_Text.Text = nt.minutes.ToString();
                     Seconds_Text.Text = nt.seconds.ToString();
+                    SaveButton.IsEnabled = false;
+                    StartButton.IsEnabled = true;
 
                     if (IsRunning)
                     {
@@ -273,17 +275,18 @@ namespace TimerLab
 
         private void SelectButtonAlarm(object sender, RoutedEventArgs e)
         {
+            StartButton.IsEnabled = false;
+            SaveButton.IsEnabled = true;
 
             if (alarmDict.TryGetValue((Button)sender, out MyAlarm nt))
             {
                 Hours_Text.Text = nt.hours.ToString();
                 Minutes_Text.Text = nt.minutes.ToString();
                 Seconds_Text.Text = nt.seconds.ToString();
-
-                StartButton.Content = "SAVE";
-
+                //StartButton.IsEnabled = false;
                 lastButton1 = (Button)sender;
             }
+            Timer.IsEnabled = false;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -294,7 +297,9 @@ namespace TimerLab
                 nt.hours = int.Parse(Hours_Text.Text);
                 nt.minutes = int.Parse(Minutes_Text.Text);
                 nt.seconds = int.Parse(Seconds_Text.Text);
+                //IsRunning = Timer.IsEnabled;
                 IsRunning = !IsRunning;
+                Timer.IsEnabled = IsRunning;
 
                 if (IsRunning )
                 {
@@ -307,13 +312,16 @@ namespace TimerLab
                     Timer.IsEnabled = false;
                 }
             }
-            else if (alarmDict.TryGetValue(lastButton1,out MyAlarm at))
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (alarmDict.TryGetValue(lastButton1, out MyAlarm at))
             {
                 at.hours = int.Parse(Hours_Text.Text);
                 at.minutes = int.Parse(Minutes_Text.Text);
                 at.seconds = int.Parse(Seconds_Text.Text);
             }
-            
         }
     }
 }
